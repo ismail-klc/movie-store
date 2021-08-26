@@ -35,6 +35,7 @@ namespace API
             services.AddScoped<IActorService, ActorService>();
             services.AddScoped<IJwtService, JwtService>();
             services.AddScoped<IAdminService, AdminService>();
+            services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<ILogger, ConsoleLogger>();
 
             services.AddAutoMapper(typeof(Startup));

@@ -1,36 +1,32 @@
+using System.Threading.Tasks;
 using Business.Abstract;
 using Entities.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class CustomersController : ControllerBase
     {
-        private readonly IAdminService _adminService;
+         private readonly ICustomerService _customerService;
 
-        public AuthController(IAdminService adminService)
+        public CustomersController(ICustomerService customerService)
         {
-            _adminService = adminService;
+            _customerService = customerService;
         }
 
-        [Authorize(Role = "Admin")]
-        [HttpPost("register")]
-        public async Task<IActionResult> Register(CreateAdminDto dto)
+        [HttpPost]
+        public async Task<IActionResult> Register(CreateCustomerDto dto)
         {
-            return Created("success", await _adminService.Create(dto));
+            return Created("success", await _customerService.Create(dto));
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto dto)
         {
-            var jwt = await _adminService.Login(dto);
+            var jwt = await _customerService.Login(dto);
 
             Response.Cookies.Append("jwt", jwt, new CookieOptions
             {

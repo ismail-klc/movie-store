@@ -11,6 +11,8 @@ namespace Business.Mapping
         {
             CreateMap<Admin, CreateAdminDto>().ReverseMap();
 
+            CreateMap<Customer, CreateCustomerDto>().ReverseMap();
+
             CreateMap<Movie, CreateMovieDto>().ReverseMap();
             CreateMap<Movie, ActorMovieResponse>();
             CreateMap<Movie, MovieResponse>();
