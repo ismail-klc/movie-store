@@ -9,6 +9,8 @@ namespace Business.Mapping
     {
         public GeneralMapping()
         {
+            CreateMap<Admin, CreateAdminDto>().ReverseMap();
+
             CreateMap<Movie, CreateMovieDto>().ReverseMap();
             CreateMap<Movie, ActorMovieResponse>();
             CreateMap<Movie, MovieResponse>();

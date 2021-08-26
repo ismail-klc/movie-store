@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using API.Filters;
+using auth.Helpers;
 
 namespace API
 {
@@ -29,6 +30,9 @@ namespace API
             services.AddScoped<IDirectorService, DirectorService>();
             services.AddScoped<IGenreService, GenreService>();
             services.AddScoped<IActorService, ActorService>();
+            services.AddScoped<IAdminService, AdminService>();
+            services.AddScoped<JwtService>();
+
             services.AddAutoMapper(typeof(Startup));
 
             services.AddDbContext<MovieContext>(options =>

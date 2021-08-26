@@ -19,5 +19,6 @@ namespace Data.Concrete
         public DbSet<Director> Directors { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<Admin> Admins { get; set; }
     }
 }
