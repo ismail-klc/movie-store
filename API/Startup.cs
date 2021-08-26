@@ -1,18 +1,15 @@
-using Business.Abstract;
-using Business.Concrete;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Data.Concrete;
-using Newtonsoft.Json;
-using Microsoft.OpenApi.Models;
-using Microsoft.EntityFrameworkCore;
+
 using API.Filters;
-using Business.Helpers.Jwt;
 using API.Helpers;
 using Business.Helpers.Logging;
+using FluentValidation.AspNetCore;
+
 
 namespace API
 {
@@ -28,30 +25,11 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // injects
-            services.AddScoped<IMovieService, MovieService>();
-            services.AddScoped<IDirectorService, DirectorService>();
-            services.AddScoped<IGenreService, GenreService>();
-            services.AddScoped<IActorService, ActorService>();
-            services.AddScoped<IJwtService, JwtService>();
-            services.AddScoped<IAdminService, AdminService>();
-            services.AddScoped<ICustomerService, CustomerService>();
-            services.AddScoped<ILogger, ConsoleLogger>();
-
-            services.AddAutoMapper(typeof(Startup));
-
-            services.AddDbContext<MovieContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("PostgreSql"), b => b.MigrationsAssembly("API"))
-            );
-
             services.AddControllers(options => options.Filters.Add(typeof(ExceptionFilter))).AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            );
+            ).AddFluentValidation();
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MovieStore", Version = "v1" });
-            });
+            services.AddCloudscribeCore(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

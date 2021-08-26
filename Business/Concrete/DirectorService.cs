@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Business.Abstract;
+using Business.Validations;
 using Data.Concrete;
 using Entities.Concrete;
 using Entities.Dtos;
@@ -19,6 +20,7 @@ namespace Business.Concrete
             _context = context;
             _mapper = mapper;
         }
+
         public async Task AddDirector(CreateDirectorDto directorDto)
         {
             var director = _mapper.Map<Director>(directorDto);
