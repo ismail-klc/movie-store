@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using auth.Helpers;
+using Business.Helpers;
 using AutoMapper;
 using Business.Abstract;
 using Business.Exceptions;
@@ -14,11 +14,11 @@ namespace Business.Concrete
     {
         private readonly MovieContext _context;
         private readonly IMapper _mapper;
-        private readonly JwtService _jwtService;
+        private readonly IJwtService _jwtService;
 
 
 
-        public AdminService(MovieContext context, IMapper mapper, JwtService jwtService)
+        public AdminService(MovieContext context, IMapper mapper, IJwtService jwtService)
         {
             _context = context;
             _mapper = mapper;

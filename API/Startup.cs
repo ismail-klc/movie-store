@@ -10,7 +10,8 @@ using Newtonsoft.Json;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using API.Filters;
-using auth.Helpers;
+using Business.Helpers;
+using API.Helpers;
 
 namespace API
 {
@@ -30,8 +31,8 @@ namespace API
             services.AddScoped<IDirectorService, DirectorService>();
             services.AddScoped<IGenreService, GenreService>();
             services.AddScoped<IActorService, ActorService>();
+            services.AddScoped<IJwtService, JwtService>();
             services.AddScoped<IAdminService, AdminService>();
-            services.AddScoped<JwtService>();
 
             services.AddAutoMapper(typeof(Startup));
 
@@ -61,7 +62,7 @@ namespace API
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseMiddleware<AuthMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

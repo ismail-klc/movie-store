@@ -19,6 +19,7 @@ namespace API.Controllers
             _genreService = genreService;
         }
 
+        [Authorize(Role = "Customer")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {

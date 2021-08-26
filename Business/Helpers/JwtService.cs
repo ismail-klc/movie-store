@@ -4,9 +4,9 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace auth.Helpers
+namespace Business.Helpers
 {
-    public class JwtService
+    public class JwtService : IJwtService
     {
         private string secureKey = "this is a very secure key";
 

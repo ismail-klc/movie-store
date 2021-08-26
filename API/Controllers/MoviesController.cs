@@ -1,9 +1,7 @@
 ﻿using Business.Abstract;
 using Entities.Dtos;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 
 namespace API.Controllers
@@ -19,6 +17,7 @@ namespace API.Controllers
             _movieService = movieService;
         }
 
+        [Authorize(Role = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
