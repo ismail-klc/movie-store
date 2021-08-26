@@ -4,7 +4,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Business.Helpers
+namespace Business.Helpers.Jwt
 {
     public class JwtService : IJwtService
     {

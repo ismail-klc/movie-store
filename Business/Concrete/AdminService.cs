@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using Business.Helpers;
+using Business.Helpers.Jwt;
 using AutoMapper;
 using Business.Abstract;
 using Business.Exceptions;
