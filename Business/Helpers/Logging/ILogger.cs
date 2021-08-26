@@ -2,6 +2,7 @@ namespace Business.Helpers.Logging
 {
     public interface ILogger
     {
-        void Log(string message);
+        void Info(string message);
+        void Danger(string message);
     }
 }

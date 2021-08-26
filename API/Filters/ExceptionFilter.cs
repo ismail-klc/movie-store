@@ -4,16 +4,23 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Business.Exceptions;
+using Business.Helpers.Logging;
 
 namespace API.Filters
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class ExceptionFilter : ExceptionFilterAttribute
     {
+        private readonly ILogger _logger;
+        public ExceptionFilter(ILogger logger)
+        {
+            _logger = logger;
+        }
+        
         public override Task OnExceptionAsync(ExceptionContext context)
         {
             // log exception message
-            Console.WriteLine("Hata: {0}", context.Exception.Message);
+            _logger.Danger("Hata: " + context.Exception.Message);
 
             var statusCode = HttpStatusCode.InternalServerError;
 

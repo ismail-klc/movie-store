@@ -17,7 +17,7 @@ namespace Business.Helpers.Logging
         {
             string path = context.Request.Path.ToString();
             string message = "İstek yapılan route: " + path;
-            logger.Log(message);
+            logger.Info(message);
 
             context.Response.OnStarting(() =>
             {
@@ -25,7 +25,7 @@ namespace Business.Helpers.Logging
             {
                 try
                 {
-                    logger.Log("Response kodu: " + context.Response.StatusCode);
+                    logger.Info("Response kodu: " + context.Response.StatusCode + "\n");
                 }
                 catch { }
             });
