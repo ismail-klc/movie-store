@@ -26,6 +26,7 @@ namespace API.Controllers
             return Ok(directors);
         }
 
+        [Authorize(Role = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateDirector(CreateDirectorDto director)
         {

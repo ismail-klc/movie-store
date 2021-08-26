@@ -10,8 +10,9 @@ using Newtonsoft.Json;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using API.Filters;
-using Business.Helpers;
+using Business.Helpers.Jwt;
 using API.Helpers;
+using Business.Helpers.Logging;
 
 namespace API
 {
@@ -27,12 +28,14 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // injects
             services.AddScoped<IMovieService, MovieService>();
             services.AddScoped<IDirectorService, DirectorService>();
             services.AddScoped<IGenreService, GenreService>();
             services.AddScoped<IActorService, ActorService>();
             services.AddScoped<IJwtService, JwtService>();
             services.AddScoped<IAdminService, AdminService>();
+            services.AddScoped<ILogger, ConsoleLogger>();
 
             services.AddAutoMapper(typeof(Startup));
 
@@ -63,6 +66,7 @@ namespace API
             app.UseRouting();
 
             app.UseMiddleware<AuthMiddleware>();
+            app.UseMiddleware<LoggingMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

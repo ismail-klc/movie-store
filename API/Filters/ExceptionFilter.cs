@@ -12,10 +12,16 @@ namespace API.Filters
     {
         public override Task OnExceptionAsync(ExceptionContext context)
         {
+            // log exception message
+            Console.WriteLine("Hata: {0}", context.Exception.Message);
+
             var statusCode = HttpStatusCode.InternalServerError;
 
             if (context.Exception is BadRequestException)
                 statusCode = HttpStatusCode.BadRequest;
+
+            if (context.Exception is NotAuthorizedException)
+                statusCode = HttpStatusCode.Unauthorized;
 
             context.HttpContext.Response.ContentType = "application/json";
             context.HttpContext.Response.StatusCode = (int)statusCode;

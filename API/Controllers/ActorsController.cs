@@ -26,6 +26,7 @@ namespace API.Controllers
             return Ok(actors);
         }
 
+        [Authorize(Role = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateActor(CreateActorDto actor)
         {
@@ -34,6 +35,7 @@ namespace API.Controllers
             return StatusCode(201);
         }
 
+        [Authorize(Role = "Admin")]
         [HttpPost("movie")]
         public async Task<IActionResult> AddMovieToActor([FromQuery(Name = "actor")] int actorId,
             [FromQuery(Name = "movie")] int movieId)

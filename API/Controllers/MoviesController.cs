@@ -17,7 +17,6 @@ namespace API.Controllers
             _movieService = movieService;
         }
 
-        [Authorize(Role = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -25,6 +24,7 @@ namespace API.Controllers
             return Ok(movies);
         }
 
+        [Authorize(Role = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateMovie(CreateMovieDto movie)
         {

@@ -19,7 +19,6 @@ namespace API.Controllers
             _genreService = genreService;
         }
 
-        [Authorize(Role = "Customer")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -27,6 +26,7 @@ namespace API.Controllers
             return Ok(genres);
         }
 
+        [Authorize(Role = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateGenre(CreateGenreDto genre)
         {
