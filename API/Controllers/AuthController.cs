@@ -20,7 +20,7 @@ namespace API.Controllers
             _adminService = adminService;
         }
 
-        [Authorize(Role = "Admin")]
+        // [Authorize(Role = "Admin")]
         [HttpPost("register")]
         public async Task<IActionResult> Register(CreateAdminDto dto)
         {

@@ -27,6 +27,12 @@ namespace Business.Concrete
 
         public async Task<Admin> Create(CreateAdminDto dto)
         {
+            var adminExisted = await this.GetByEmail(dto.Email);
+            if (adminExisted != null)
+            {
+                throw new BadRequestException("This email is already registered");
+            }
+
             var admin = _mapper.Map<Admin>(dto);
             admin.Password = BCrypt.Net.BCrypt.HashPassword(admin.Password);
 
@@ -40,14 +46,14 @@ namespace Business.Concrete
 
         public async Task<Admin> GetByEmail(string email)
         {
-            var admin = await _context.Set<Admin>().SingleOrDefaultAsync(x => x.Email == email);
+            var admin = await _context.Set<Admin>().FirstOrDefaultAsync(x => x.Email == email);
 
             return admin;
         }
 
         public async Task<Admin> GetById(int id)
         {
-            var admin = await _context.Set<Admin>().SingleOrDefaultAsync(x => x.Id == id);
+            var admin = await _context.Set<Admin>().FirstOrDefaultAsync(x => x.Id == id);
 
             return admin;
         }

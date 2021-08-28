@@ -1,15 +1,12 @@
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
 using API.Filters;
 using API.Helpers;
 using Business.Helpers.Logging;
 using FluentValidation.AspNetCore;
-
 
 namespace API
 {
