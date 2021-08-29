@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Business.Abstract;
+using Business.Exceptions;
 using Business.Validations;
 using Data.Concrete;
 using Entities.Concrete;
@@ -29,6 +30,18 @@ namespace Business.Concrete
             addedDirector.State = EntityState.Added;
             
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<DirectorViewModel> GetDirectorById(int id)
+        {
+            var director = await _context.Set<Director>()
+                .Include(x => x.Movies).FirstOrDefaultAsync(x => x.Id == id);
+            if (director == null)
+            {
+                throw new NotFoundException("Director not found");
+            }
+            
+            return _mapper.Map<DirectorViewModel>(director);
         }
 
         public async Task<List<DirectorViewModel>> GetDirectors()

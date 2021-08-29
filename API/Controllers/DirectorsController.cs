@@ -26,6 +26,13 @@ namespace API.Controllers
             return Ok(directors);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var director = await _directorService.GetDirectorById(id);
+            return Ok(director);
+        }
+
         [Authorize(Role = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateDirector(CreateDirectorDto director)

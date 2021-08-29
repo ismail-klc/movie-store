@@ -13,5 +13,6 @@ namespace Business.Abstract
     {
         Task AddMovie(CreateMovieDto movieDto);
         Task<List<MovieViewModel>> GetMovies();
+        Task<MovieViewModel> GetMovieById(int id);
     }
 }

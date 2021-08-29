@@ -27,6 +27,9 @@ namespace API.Filters
             if (context.Exception is BadRequestException)
                 statusCode = HttpStatusCode.BadRequest;
 
+            if (context.Exception is NotFoundException)
+                statusCode = HttpStatusCode.NotFound;
+
             if (context.Exception is NotAuthorizedException)
                 statusCode = HttpStatusCode.Unauthorized;
 

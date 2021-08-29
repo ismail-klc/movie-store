@@ -10,6 +10,7 @@ namespace Business.Abstract
     {
         Task AddActor(CreateActorDto dto);
         Task<List<ActorViewModel>> GetActors();
+        Task<ActorViewModel> GetActorById(int id);
         Task AddMovieToActor(int actorId, int movieId);
     }
 }

@@ -24,6 +24,13 @@ namespace API.Controllers
             return Ok(movies);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var movie = await _movieService.GetMovieById(id);
+            return Ok(movie);
+        }
+
         [Authorize(Role = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateMovie(CreateMovieDto movie)

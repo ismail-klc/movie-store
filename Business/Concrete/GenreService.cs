@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Business.Abstract;
+using Business.Exceptions;
 using Data.Concrete;
 using Entities.Concrete;
 using Entities.Dtos;
@@ -27,6 +28,18 @@ namespace Business.Concrete
             addedGenre.State = EntityState.Added;
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<GenreViewModel> GetGenreById(int id)
+        {
+            var genre = await _context.Set<Genre>()
+                .Include(x => x.Movies).FirstOrDefaultAsync(x => x.Id == id);
+            if (genre == null)
+            {
+                throw new NotFoundException("Genre not found");
+            }
+            
+            return _mapper.Map<GenreViewModel>(genre);
         }
 
         public async Task<List<GenreViewModel>> GetGenres()

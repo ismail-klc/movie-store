@@ -26,6 +26,13 @@ namespace API.Controllers
             return Ok(genres);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var genre = await _genreService.GetGenreById(id);
+            return Ok(genre);
+        }
+
         [Authorize(Role = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateGenre(CreateGenreDto genre)

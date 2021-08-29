@@ -8,6 +8,7 @@ using Entities.Dtos;
 using Microsoft.EntityFrameworkCore;
 using Business.Exceptions;
 using Entities.ViewModels;
+using Business.Exceptions;
 
 namespace Business.Concrete
 {
@@ -58,6 +59,18 @@ namespace Business.Concrete
             updatedActor.State = EntityState.Modified;
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<ActorViewModel> GetActorById(int id)
+        {
+            var actor = await _context.Set<Actor>()
+                .Include(x => x.Movies).FirstOrDefaultAsync(x => x.Id == id);
+            if (actor == null)
+            {
+                throw new NotFoundException("Actor not found");
+            }
+            
+            return _mapper.Map<ActorViewModel>(actor);
         }
 
         public async Task<List<ActorViewModel>> GetActors()

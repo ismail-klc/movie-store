@@ -26,6 +26,13 @@ namespace API.Controllers
             return Ok(actors);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var actor = await _actorService.GetActorById(id);
+            return Ok(actor);
+        }
+
         [Authorize(Role = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateActor(CreateActorDto actor)

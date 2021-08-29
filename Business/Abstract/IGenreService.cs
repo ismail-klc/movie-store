@@ -8,7 +8,9 @@ namespace Business.Abstract
 {
     public interface IGenreService
     {
-         Task AddGenre(CreateGenreDto dto);
+        Task AddGenre(CreateGenreDto dto);
         Task<List<GenreViewModel>> GetGenres();
+        Task<GenreViewModel> GetGenreById(int id);
+
     }
 }

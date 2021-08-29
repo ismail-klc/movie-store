@@ -39,8 +39,21 @@ namespace Business.Concrete
             var movie = _mapper.Map<Movie>(movieDto);
             var addedMovie = _context.Entry(movie);
             addedMovie.State = EntityState.Added;
-            
+
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<MovieViewModel> GetMovieById(int id)
+        {
+            var movie = await _context.Set<Movie>()
+                .Include(x => x.Director).Include(x => x.Actors)
+                .Include(x => x.Genre).FirstOrDefaultAsync(x => x.Id == id);
+            if (movie == null)
+            {
+                throw new NotFoundException("Movie not found");
+            }
+
+            return _mapper.Map<MovieViewModel>(movie);
         }
 
         public async Task<List<MovieViewModel>> GetMovies()
@@ -48,7 +61,7 @@ namespace Business.Concrete
             var movies = await _context.Movies
                 .Include(x => x.Director).Include(x => x.Actors)
                 .Include(x => x.Genre).ToListAsync();
-            
+
             return _mapper.Map<List<MovieViewModel>>(movies);
         }
     }

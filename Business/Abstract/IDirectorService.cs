@@ -10,5 +10,6 @@ namespace Business.Abstract
     {
         Task AddDirector(CreateDirectorDto directorDto);
         Task<List<DirectorViewModel>> GetDirectors();
+        Task<DirectorViewModel> GetDirectorById(int id);
     }
 }
