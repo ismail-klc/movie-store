@@ -72,8 +72,7 @@ namespace API.Tests.Controllers
         {
             // act
             var response = await _client.GetAsync("/api/Actors");
-            var content = await response.Content.ReadAsStringAsync();
-            var actors = JsonSerializer.Deserialize<List<ActorViewModel>>(content);
+            var actors = await response.Content.ReadAsAsync<List<ActorViewModel>>();
 
             // assert
             Assert.Equal(actors.Count, 1);

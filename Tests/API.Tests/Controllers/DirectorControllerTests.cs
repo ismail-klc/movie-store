@@ -73,8 +73,7 @@ namespace API.Tests.Controllers
         {
             // act
             var response = await _client.GetAsync("/api/Directors");
-            var content = await response.Content.ReadAsStringAsync();
-            var directors = JsonSerializer.Deserialize<List<DirectorViewModel>>(content);
+            var directors = await response.Content.ReadAsAsync<List<DirectorViewModel>>();
 
             // assert
             Assert.Equal(directors.Count, 1);

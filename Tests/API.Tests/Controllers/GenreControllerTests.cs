@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 using API.Tests.Helpers;
 using Entities.ViewModels;
 using FluentAssertions;
+using Newtonsoft.Json;
 using Xunit;
 
 namespace API.Tests.Controllers
@@ -19,8 +21,8 @@ namespace API.Tests.Controllers
             _client = fixture.CreateClient();
         }
 
-         [Fact]
-        public async Task Get_401_Creating_Director()
+        [Fact]
+        public async Task Get_401_Creating_Genre()
         {
             // act
             var response = await _client.PostAsync("/api/Genres", new JsonContent(
@@ -78,8 +80,7 @@ namespace API.Tests.Controllers
                 }));
 
             var response = await _client.GetAsync("/api/Genres");
-            var content = await response.Content.ReadAsStringAsync();
-            var genres = JsonSerializer.Deserialize<List<GenreViewModel>>(content);
+            var genres = await response.Content.ReadAsAsync<List<GenreViewModel>>();
 
             // assert
             Assert.Equal(genres.Count, 1);
