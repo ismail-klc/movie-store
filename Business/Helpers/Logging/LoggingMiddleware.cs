@@ -16,7 +16,7 @@ namespace Business.Helpers.Logging
         public async Task Invoke(HttpContext context, ILogger logger)
         {
             string path = context.Request.Path.ToString();
-            string message = "İstek yapılan route: " + path;
+            string message = context.Request.Method + " request - route: " + path;
             logger.Info(message);
 
             context.Response.OnStarting(() =>

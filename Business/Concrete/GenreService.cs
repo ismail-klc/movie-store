@@ -38,7 +38,7 @@ namespace Business.Concrete
             {
                 throw new NotFoundException("Genre not found");
             }
-            
+
             return _mapper.Map<GenreViewModel>(genre);
         }
 
@@ -46,6 +46,22 @@ namespace Business.Concrete
         {
             var genres = await _context.Genres.Include(x => x.Movies).ToListAsync();
             return _mapper.Map<List<GenreViewModel>>(genres);
+        }
+
+        public async Task UpdateGenre(UpdateGenreDto dto)
+        {
+            try
+            {
+                var genre = _mapper.Map<Genre>(dto);
+                var updatedGenre = _context.Entry(genre);
+                updatedGenre.State = EntityState.Modified;
+
+                await _context.SaveChangesAsync();
+            }
+            catch (System.Exception ex)
+            {
+                throw new BadRequestException("Director not updated");
+            }
         }
     }
 }

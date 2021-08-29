@@ -43,6 +43,15 @@ namespace API.Controllers
         }
 
         [Authorize(Role = "Admin")]
+        [HttpPut]
+        public async Task<IActionResult> UpdateActor(UpdateActorDto actor)
+        {
+            await _actorService.UpdateActor(actor);
+
+            return Ok();
+        }
+
+        [Authorize(Role = "Admin")]
         [HttpPost("movie")]
         public async Task<IActionResult> AddMovieToActor([FromQuery(Name = "actor")] int actorId,
             [FromQuery(Name = "movie")] int movieId)

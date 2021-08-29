@@ -9,6 +9,7 @@ namespace Business.Abstract
     public interface IDirectorService
     {
         Task AddDirector(CreateDirectorDto directorDto);
+        Task UpdateDirector(UpdateDirectorDto dto);
         Task<List<DirectorViewModel>> GetDirectors();
         Task<DirectorViewModel> GetDirectorById(int id);
     }

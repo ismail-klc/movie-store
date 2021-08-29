@@ -28,7 +28,7 @@ namespace Business.Concrete
             var director = _mapper.Map<Director>(directorDto);
             var addedDirector = _context.Entry(director);
             addedDirector.State = EntityState.Added;
-            
+
             await _context.SaveChangesAsync();
         }
 
@@ -40,7 +40,7 @@ namespace Business.Concrete
             {
                 throw new NotFoundException("Director not found");
             }
-            
+
             return _mapper.Map<DirectorViewModel>(director);
         }
 
@@ -48,6 +48,22 @@ namespace Business.Concrete
         {
             var directors = await _context.Directors.Include(x => x.Movies).ToListAsync();
             return _mapper.Map<List<DirectorViewModel>>(directors);
+        }
+
+        public async Task UpdateDirector(UpdateDirectorDto dto)
+        {
+            try
+            {
+                var director = _mapper.Map<Director>(dto);
+                var updatedDirector = _context.Entry(director);
+                updatedDirector.State = EntityState.Modified;
+
+                await _context.SaveChangesAsync();
+            }
+            catch (System.Exception ex)
+            {
+                throw new BadRequestException("Director not updated");
+            }
         }
     }
 }

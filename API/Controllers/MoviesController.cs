@@ -40,5 +40,13 @@ namespace API.Controllers
             return StatusCode(201);
         }
 
+        [Authorize(Role = "Admin")]
+        [HttpPut]
+        public async Task<IActionResult> UpdateMovie(UpdateMovieDto movie)
+        {
+            await _movieService.UpdateMovie(movie);
+
+            return Ok();
+        }
     }
 }

@@ -64,5 +64,35 @@ namespace Business.Concrete
 
             return _mapper.Map<List<MovieViewModel>>(movies);
         }
+
+        public async Task UpdateMovie(UpdateMovieDto movieDto)
+        {
+            try
+            {
+                var directorExisted = await _context.Directors.AnyAsync(x => x.Id == movieDto.DirectorId);
+                if (!directorExisted)
+                {
+                    throw new BadRequestException("Director not found");
+                }
+
+                var genreExisted = await _context.Genres.AnyAsync(x => x.Id == movieDto.GenreId);
+                if (!genreExisted)
+                {
+                    throw new BadRequestException("Genre not found");
+                }
+
+                var movie = _mapper.Map<Movie>(movieDto);
+                movie.Director = await _context.Directors.FirstOrDefaultAsync(x => x.Id == movieDto.DirectorId);
+                movie.Genre = await _context.Genres.FirstOrDefaultAsync(x => x.Id == movieDto.GenreId);
+                var updatedMovie = _context.Entry(movie);
+                updatedMovie.State = EntityState.Modified;
+
+                await _context.SaveChangesAsync(); 
+            }
+            catch (System.Exception ex)
+            {
+                throw new BadRequestException("Movie not updated");
+            }
+        }
     }
 }

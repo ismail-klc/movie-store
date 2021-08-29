@@ -79,5 +79,21 @@ namespace Business.Concrete
 
             return _mapper.Map<List<ActorViewModel>>(actors);
         }
+
+        public async Task UpdateActor(UpdateActorDto dto)
+        {
+            try
+            {
+                var actor = _mapper.Map<Actor>(dto);
+                var updatedActor = _context.Entry(actor);
+                updatedActor.State = EntityState.Modified;
+
+                await _context.SaveChangesAsync();
+            }
+            catch (System.Exception ex)
+            {
+                throw new BadRequestException("Actor not updated");
+            }
+        }
     }
 }

@@ -42,5 +42,13 @@ namespace API.Controllers
             return StatusCode(201);
         }
 
+        [Authorize(Role = "Admin")]
+        [HttpPut]
+        public async Task<IActionResult> UpdateActor(UpdateGenreDto dto)
+        {
+            await _genreService.UpdateGenre(dto);
+
+            return Ok();
+        }
     }
 }

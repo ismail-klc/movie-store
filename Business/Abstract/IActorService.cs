@@ -12,5 +12,6 @@ namespace Business.Abstract
         Task<List<ActorViewModel>> GetActors();
         Task<ActorViewModel> GetActorById(int id);
         Task AddMovieToActor(int actorId, int movieId);
+        Task UpdateActor(UpdateActorDto dto);
     }
 }

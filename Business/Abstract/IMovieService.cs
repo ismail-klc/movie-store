@@ -12,6 +12,7 @@ namespace Business.Abstract
     public interface IMovieService
     {
         Task AddMovie(CreateMovieDto movieDto);
+        Task UpdateMovie(UpdateMovieDto movieDto);
         Task<List<MovieViewModel>> GetMovies();
         Task<MovieViewModel> GetMovieById(int id);
     }
