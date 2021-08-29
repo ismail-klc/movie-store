@@ -43,13 +43,13 @@ namespace Business.Concrete
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<MovieResponse>> GetMovies()
+        public async Task<List<MovieViewModel>> GetMovies()
         {
             var movies = await _context.Movies
                 .Include(x => x.Director).Include(x => x.Actors)
                 .Include(x => x.Genre).ToListAsync();
             
-            return _mapper.Map<List<MovieResponse>>(movies);
+            return _mapper.Map<List<MovieViewModel>>(movies);
         }
     }
 }

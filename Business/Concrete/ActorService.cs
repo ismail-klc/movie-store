@@ -60,12 +60,12 @@ namespace Business.Concrete
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<ActorResponse>> GetActors()
+        public async Task<List<ActorViewModel>> GetActors()
         {
             var actors = await _context.Set<Actor>()
                 .Include(x => x.Movies).ToListAsync();
 
-            return _mapper.Map<List<ActorResponse>>(actors);
+            return _mapper.Map<List<ActorViewModel>>(actors);
         }
     }
 }

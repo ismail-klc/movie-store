@@ -9,7 +9,7 @@ namespace Business.Abstract
     public interface IActorService
     {
         Task AddActor(CreateActorDto dto);
-        Task<List<ActorResponse>> GetActors();
+        Task<List<ActorViewModel>> GetActors();
         Task AddMovieToActor(int actorId, int movieId);
     }
 }

@@ -16,8 +16,6 @@ namespace Business.Concrete
         private readonly IMapper _mapper;
         private readonly IJwtService _jwtService;
 
-
-
         public CustomerService(MovieContext context, IMapper mapper, IJwtService jwtService)
         {
             _context = context;
@@ -26,6 +24,12 @@ namespace Business.Concrete
         }
         public async Task<Customer> Create(CreateCustomerDto dto)
         {
+            var customerExisted = await this.GetByEmail(dto.Email);
+            if (customerExisted != null)
+            {
+                throw new BadRequestException("This email is already registered");
+            }
+
             var customer = _mapper.Map<Customer>(dto);
             customer.Password = BCrypt.Net.BCrypt.HashPassword(customer.Password);
 
@@ -56,7 +60,7 @@ namespace Business.Concrete
 
         public async Task<Customer> GetByEmail(string email)
         {
-            var customer = await _context.Set<Customer>().SingleOrDefaultAsync(x => x.Email == email);
+            var customer = await _context.Set<Customer>().FirstOrDefaultAsync(x => x.Email == email);
 
             return customer;
         }

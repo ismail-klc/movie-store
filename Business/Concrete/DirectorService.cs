@@ -6,6 +6,7 @@ using Business.Validations;
 using Data.Concrete;
 using Entities.Concrete;
 using Entities.Dtos;
+using Entities.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace Business.Concrete
@@ -30,10 +31,10 @@ namespace Business.Concrete
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Director>> GetDirectors()
+        public async Task<List<DirectorViewModel>> GetDirectors()
         {
             var directors = await _context.Directors.Include(x => x.Movies).ToListAsync();
-            return directors;
+            return _mapper.Map<List<DirectorViewModel>>(directors);
         }
     }
 }

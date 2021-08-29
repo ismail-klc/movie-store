@@ -1,40 +1,37 @@
-using Xunit;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Testing;
-using FluentAssertions;
 using API.Tests.Helpers;
-using System.Linq;
-using System.Web;
-using System;
+using API.Tests.Helpers.Actions;
+using FluentAssertions;
+using Xunit;
 
 namespace API.Tests.Controllers
 {
-    public class AuthControllerTests : IClassFixture<ApiWebApplicationFactory>
+    public class CustomerControllerTests : IClassFixture<ApiWebApplicationFactory>
     {
         private readonly HttpClient _client;
 
-        public AuthControllerTests(ApiWebApplicationFactory fixture)
+        public CustomerControllerTests(ApiWebApplicationFactory fixture)
         {
             _client = fixture.CreateClient();
         }
 
         [Fact]
-        public async Task Register_Success()
+        public async Task Create_Customer()
         {
             // act
-            var response = await AuthActions.Register(_client, "test@test.com", "123456");
-
+            var response = await CustomerActions.CreateCustomer(_client, "test3@test.com", "123456");
+            
             // assert
             response.StatusCode.Should().Be(HttpStatusCode.Created);
         }
 
         [Fact]
-        public async Task Login_Success()
+        public async Task Login_Customer()
         {
             // act
-            var response = await AuthActions.Login(_client, "test@test.com", "123456");
+            var response = await CustomerActions.CustomerLogin(_client, "test3@test.com", "123456");
             response.Headers.TryGetValues("Set-Cookie", out var setCookie);
 
             // assert
@@ -46,8 +43,8 @@ namespace API.Tests.Controllers
         public async Task Logout()
         {
             // act
-            await AuthActions.Login(_client, "test@test.com", "123456");
-            var response = await _client.PostAsync("/api/Auth/logout", new JsonContent(new {}));
+            await CustomerActions.CustomerLogin(_client, "test3@test.com", "123456");
+            var response = await _client.PostAsync("/api/Customers/logout", new JsonContent(new {}));
 
             response.Headers.TryGetValues("Set-Cookie", out var setCookie);
 

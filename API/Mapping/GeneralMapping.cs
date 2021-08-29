@@ -14,18 +14,20 @@ namespace Business.Mapping
             CreateMap<Customer, CreateCustomerDto>().ReverseMap();
 
             CreateMap<Movie, CreateMovieDto>().ReverseMap();
-            CreateMap<Movie, ActorMovieResponse>();
-            CreateMap<Movie, MovieResponse>();
+            CreateMap<Movie, ActorMovieViewModel>();
+            CreateMap<Movie, DirectorMovieViewModel>();
+            CreateMap<Movie, MovieViewModel>();
 
             CreateMap<Director, CreateDirectorDto>().ReverseMap();
-            CreateMap<Director, MovieDirectorReponse>();
+            CreateMap<Director, MovieDirectorViewModel>();
+            CreateMap<Director, DirectorViewModel>();
 
             CreateMap<Actor, CreateActorDto>().ReverseMap();
-            CreateMap<Actor, MovieActorReponse>();
-            CreateMap<Actor, ActorResponse>();
+            CreateMap<Actor, MovieActorViewModel>();
+            CreateMap<Actor, ActorViewModel>();
 
             CreateMap<Genre, CreateGenreDto>().ReverseMap();
-            CreateMap<Genre, MovieGenreResponse>();
+            CreateMap<Genre, MovieGenreViewModel>();
         }
     }
 }

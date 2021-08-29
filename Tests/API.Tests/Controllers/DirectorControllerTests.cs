@@ -10,20 +10,20 @@ using Xunit;
 
 namespace API.Tests.Controllers
 {
-    public class ActorControllerTests : IClassFixture<ApiWebApplicationFactory>
+    public class DirectorControllerTests : IClassFixture<ApiWebApplicationFactory>
     {
         private readonly HttpClient _client;
 
-        public ActorControllerTests(ApiWebApplicationFactory fixture)
+        public DirectorControllerTests(ApiWebApplicationFactory fixture)
         {
             _client = fixture.CreateClient();
         }
 
         [Fact]
-        public async Task Get_401_Creating_Actor()
+        public async Task Get_401_Creating_Director()
         {
             // act
-            var response = await _client.PostAsync("/api/Actors", new JsonContent(
+            var response = await _client.PostAsync("/api/Directors", new JsonContent(
                 new
                 {
                     firstname = "actor",
@@ -35,15 +35,15 @@ namespace API.Tests.Controllers
         }
 
         [Fact]
-        public async Task Create_Actor()
+        public async Task Create_Director()
         {
             // act
-            await AuthActions.Register(_client, "test2@test.com", "123456");
-            await AuthActions.Login(_client, "test2@test.com", "123456");
-            var response = await _client.PostAsync("/api/Actors", new JsonContent(
+            await AuthActions.Register(_client, "test4@test.com", "123456");
+            await AuthActions.Login(_client, "test4@test.com", "123456");
+            var response = await _client.PostAsync("/api/Directors", new JsonContent(
                 new
                 {
-                    firstname = "actor",
+                    firstname = "director",
                     lastname = "lastname",
                 }));
 
@@ -55,8 +55,9 @@ namespace API.Tests.Controllers
         public async Task Get_400_With_Wrong_Inputs()
         {
             // act
-            await AuthActions.Login(_client, "test2@test.com", "123456");
-            var response = await _client.PostAsync("/api/Actors", new JsonContent(
+            await AuthActions.Register(_client, "test5@test.com", "123456");
+            var loginResponse = await AuthActions.Login(_client, "test5@test.com", "123456");
+            var response = await _client.PostAsync("/api/Directors", new JsonContent(
                 new
                 {
                     firstname = "",
@@ -68,12 +69,12 @@ namespace API.Tests.Controllers
         }
 
         [Fact]
-        public async Task Get_Actors()
+        public async Task Get_Directors()
         {
             // act
-            var response = await _client.GetAsync("/api/Actors");
+            var response = await _client.GetAsync("/api/Directors");
             var content = await response.Content.ReadAsStringAsync();
-            var actors = JsonSerializer.Deserialize<List<ActorViewModel>>(content);
+            var actors = JsonSerializer.Deserialize<List<DirectorViewModel>>(content);
 
             // assert
             Assert.Equal(actors.Count, 1);
