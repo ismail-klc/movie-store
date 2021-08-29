@@ -5,6 +5,7 @@ using Business.Abstract;
 using Data.Concrete;
 using Entities.Concrete;
 using Entities.Dtos;
+using Entities.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace Business.Concrete
@@ -24,14 +25,14 @@ namespace Business.Concrete
             var genre = _mapper.Map<Genre>(dto);
             var addedGenre = _context.Entry(genre);
             addedGenre.State = EntityState.Added;
-            
+
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Genre>> GetGenres()
+        public async Task<List<GenreViewModel>> GetGenres()
         {
             var genres = await _context.Genres.Include(x => x.Movies).ToListAsync();
-            return genres;
+            return _mapper.Map<List<GenreViewModel>>(genres);
         }
     }
 }

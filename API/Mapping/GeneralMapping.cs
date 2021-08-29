@@ -17,6 +17,7 @@ namespace Business.Mapping
             CreateMap<Movie, ActorMovieViewModel>();
             CreateMap<Movie, DirectorMovieViewModel>();
             CreateMap<Movie, MovieViewModel>();
+            CreateMap<Movie, GenreMovieViewModel>();
 
             CreateMap<Director, CreateDirectorDto>().ReverseMap();
             CreateMap<Director, MovieDirectorViewModel>();
@@ -28,6 +29,7 @@ namespace Business.Mapping
 
             CreateMap<Genre, CreateGenreDto>().ReverseMap();
             CreateMap<Genre, MovieGenreViewModel>();
+            CreateMap<Genre, GenreViewModel>();
         }
     }
 }

@@ -74,10 +74,10 @@ namespace API.Tests.Controllers
             // act
             var response = await _client.GetAsync("/api/Directors");
             var content = await response.Content.ReadAsStringAsync();
-            var actors = JsonSerializer.Deserialize<List<DirectorViewModel>>(content);
+            var directors = JsonSerializer.Deserialize<List<DirectorViewModel>>(content);
 
             // assert
-            Assert.Equal(actors.Count, 1);
+            Assert.Equal(directors.Count, 1);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
     }
