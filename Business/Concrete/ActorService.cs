@@ -8,7 +8,6 @@ using Entities.Dtos;
 using Microsoft.EntityFrameworkCore;
 using Business.Exceptions;
 using Entities.ViewModels;
-using Business.Exceptions;
 
 namespace Business.Concrete
 {
@@ -69,7 +68,7 @@ namespace Business.Concrete
             {
                 throw new NotFoundException("Actor not found");
             }
-            
+
             return _mapper.Map<ActorViewModel>(actor);
         }
 

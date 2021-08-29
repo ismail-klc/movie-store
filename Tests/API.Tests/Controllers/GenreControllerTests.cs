@@ -83,7 +83,27 @@ namespace API.Tests.Controllers
             var genres = await response.Content.ReadAsAsync<List<GenreViewModel>>();
 
             // assert
-            Assert.Equal(genres.Count, 1);
+            genres.Count.Should().BeGreaterThan(0);
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Fact]
+        public async Task Get_Genre_By_Id()
+        {
+            // act
+            await AuthActions.Login(_client, "test2@test.com", "123456");
+            await _client.PostAsync("/api/Genres", new JsonContent(
+                new
+                {
+                    name = "genre",
+                }));
+
+            var getResponse = await _client.GetAsync("/api/Genres");
+            var genres = await getResponse.Content.ReadAsAsync<List<GenreViewModel>>();
+
+            var response = await _client.GetAsync("/api/Genres/" + genres[0].Id);
+
+            // assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
     }

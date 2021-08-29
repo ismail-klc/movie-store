@@ -76,7 +76,28 @@ namespace API.Tests.Controllers
             var directors = await response.Content.ReadAsAsync<List<DirectorViewModel>>();
 
             // assert
-            Assert.Equal(directors.Count, 1);
+            directors.Count.Should().BeGreaterThan(0);
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Fact]
+        public async Task Get_Director_By_Id()
+        {
+            // act
+            await AuthActions.Login(_client, "test2@test.com", "123456");
+            await _client.PostAsync("/api/Directors", new JsonContent(
+                new
+                {
+                    firstname = "director",
+                    lastname = "lastname",
+                }));
+
+            var getResponse = await _client.GetAsync("/api/Directors");
+            var directors = await getResponse.Content.ReadAsAsync<List<DirectorViewModel>>();
+
+            var response = await _client.GetAsync("/api/Directors/" + directors[0].Id);
+
+            // assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
     }

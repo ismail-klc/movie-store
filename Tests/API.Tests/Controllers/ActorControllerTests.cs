@@ -75,7 +75,28 @@ namespace API.Tests.Controllers
             var actors = await response.Content.ReadAsAsync<List<ActorViewModel>>();
 
             // assert
-            Assert.Equal(actors.Count, 1);
+            actors.Count.Should().BeGreaterThan(0);
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Fact]
+        public async Task Get_Actor_By_Id()
+        {
+            // act
+            await AuthActions.Login(_client, "test2@test.com", "123456");
+            await _client.PostAsync("/api/Actors", new JsonContent(
+                new
+                {
+                    firstname = "actor",
+                    lastname = "lastname",
+                }));
+
+            var getResponse = await _client.GetAsync("/api/Actors");
+            var actors = await getResponse.Content.ReadAsAsync<List<ActorViewModel>>();
+
+            var response = await _client.GetAsync("/api/Actors/" + actors[0].Id);
+
+            // assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
     }

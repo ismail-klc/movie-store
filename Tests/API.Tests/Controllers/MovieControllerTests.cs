@@ -145,5 +145,93 @@ namespace API.Tests.Controllers
             // assert
             response.StatusCode.Should().Be(HttpStatusCode.Created);
         }
+
+        [Fact]
+        public async Task Get_Movies()
+        {
+            var loginResponse = await AuthActions.Login(_client, "test12@test.com", "123456");
+
+            // create and get genre
+            await _client.PostAsync("/api/Genres", new JsonContent(
+                new
+                {
+                    name = "genre",
+                }));
+            var genreResponse = await _client.GetAsync("/api/Genres");
+            var genres = await genreResponse.Content.ReadAsAsync<List<GenreViewModel>>();
+
+            // create and get director
+            await _client.PostAsync("/api/Directors", new JsonContent(
+                new
+                {
+                    firstname = "director",
+                    lastname = "lastname"
+                }));
+            var directorResponse = await _client.GetAsync("/api/Directors");
+            var directors = await directorResponse.Content.ReadAsAsync<List<DirectorViewModel>>();
+
+            // create movie
+            var response = await _client.PostAsync("/api/Movies", new JsonContent(
+                new
+                {
+                    name = "movie",
+                    year = 2000,
+                    price = 15,
+                    genreId = genres[0].Id,
+                    directorId = directors[0].Id
+                }));
+
+            var getMovieResponse = await _client.GetAsync("/api/Movies");
+            var movies = await getMovieResponse.Content.ReadAsAsync<List<MovieViewModel>>();
+
+            // assert
+            movies.Count.Should().BeGreaterThan(0);
+            response.StatusCode.Should().Be(HttpStatusCode.Created);
+        }
+
+        [Fact]
+        public async Task Get_Movie_By_Id()
+        {
+            var loginResponse = await AuthActions.Login(_client, "test12@test.com", "123456");
+
+            // create and get genre
+            await _client.PostAsync("/api/Genres", new JsonContent(
+                new
+                {
+                    name = "genre",
+                }));
+            var genreResponse = await _client.GetAsync("/api/Genres");
+            var genres = await genreResponse.Content.ReadAsAsync<List<GenreViewModel>>();
+
+            // create and get director
+            await _client.PostAsync("/api/Directors", new JsonContent(
+                new
+                {
+                    firstname = "director",
+                    lastname = "lastname"
+                }));
+            var directorResponse = await _client.GetAsync("/api/Directors");
+            var directors = await directorResponse.Content.ReadAsAsync<List<DirectorViewModel>>();
+
+            // create movie
+            var response = await _client.PostAsync("/api/Movies", new JsonContent(
+                new
+                {
+                    name = "movie",
+                    year = 2000,
+                    price = 15,
+                    genreId = genres[0].Id,
+                    directorId = directors[0].Id
+                }));
+
+            var getMovieResponse = await _client.GetAsync("/api/Movies");
+            var movies = await getMovieResponse.Content.ReadAsAsync<List<MovieViewModel>>();
+
+            var getByIdResponse = await _client.GetAsync("/api/Movies/" + movies[0].Id);
+
+            // assert
+            movies.Count.Should().BeGreaterThan(0);
+            getByIdResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
     }
 }
